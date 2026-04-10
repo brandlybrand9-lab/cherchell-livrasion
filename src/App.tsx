@@ -48,14 +48,16 @@ function AppContent() {
     
     try {
       // Envoi de la commande vers Google Sheets
-      await fetch('https://script.google.com/macros/s/AKfycbwsMAMGe1y4j3HHn98D2iJdYE2fHp7kSsNdBFv9-beNop94Feh8pVoET5z_I8fcaIXWcA/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwasMq6MZ1tcj4nt5wuH7IOLI4krHgd6maQ3JXJ2e1pJy8FWYYZNkMx9jzlYVpwdCBojA/exec', {
         method: 'POST',
-        mode: 'no-cors', // Évite les erreurs CORS du navigateur
+        // On utilise text/plain pour éviter le blocage CORS (preflight) de Google
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'text/plain;charset=utf-8',
         },
         body: JSON.stringify(orderData)
       });
+      
+      console.log("Statut de la réponse:", response.status);
     } catch (error) {
       console.error("Erreur lors de l'envoi à Google Sheets:", error);
     }
