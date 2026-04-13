@@ -323,7 +323,12 @@ function AppContent() {
             
             <div className="bg-muted p-3 rounded-md flex gap-2 text-sm text-muted-foreground mt-4">
               <Info className="w-4 h-4 shrink-0 mt-0.5" />
-              <p>Paiement à la livraison. Les livreurs recevront votre commande via Google Sheets.</p>
+              <div>
+                <p>Paiement à la livraison. Les livreurs recevront votre commande via Google Sheets.</p>
+                <p className="text-xs mt-1 opacity-50">
+                  Debug: Build 19:45 | TG_BOT: {import.meta.env.VITE_TELEGRAM_BOT_TOKEN ? 'OK' : 'MISSING'} | TG_CHAT: {import.meta.env.VITE_TELEGRAM_CHAT_ID ? 'OK' : 'MISSING'}
+                </p>
+              </div>
             </div>
 
             <DialogFooter className="pt-4">
