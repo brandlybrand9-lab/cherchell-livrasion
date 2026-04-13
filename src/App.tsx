@@ -34,7 +34,6 @@ function AppContent() {
       return;
     }
 
-    // Simulate sending to Google Sheets webhook
     const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
     const orderData = {
       ...formData,
@@ -44,24 +43,6 @@ function AppContent() {
       items: items.map(i => `${i.quantity}x ${i.name}`).join(', '),
       date: new Date().toISOString()
     };
-
-    console.log("Order submitted to Google Sheets:", orderData);
-    
-    try {
-      // Envoi de la commande vers Google Sheets
-      await fetch('https://script.google.com/macros/s/AKfycbwasMq6MZ1tcj4nt5wuH7IOLI4krHgd6maQ3JXJ2e1pJy8FWYYZNkMx9jzlYVpwdCBojA/exec', {
-        method: 'POST',
-        mode: 'no-cors', // Indispensable pour Google Apps Script
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData)
-      });
-      
-      console.log("Commande envoyée à Google Sheets (mode no-cors)");
-    } catch (error) {
-      console.error("Erreur lors de l'envoi à Google Sheets:", error);
-    }
 
     // Envoi de la notification vers Telegram
     const telegramBotToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
@@ -323,12 +304,7 @@ function AppContent() {
             
             <div className="bg-muted p-3 rounded-md flex gap-2 text-sm text-muted-foreground mt-4">
               <Info className="w-4 h-4 shrink-0 mt-0.5" />
-              <div>
-                <p>Paiement à la livraison. Les livreurs recevront votre commande via Google Sheets.</p>
-                <p className="text-xs mt-1 opacity-50">
-                  Debug: Build 19:45 | TG_BOT: {import.meta.env.VITE_TELEGRAM_BOT_TOKEN ? 'OK' : 'MISSING'} | TG_CHAT: {import.meta.env.VITE_TELEGRAM_CHAT_ID ? 'OK' : 'MISSING'}
-                </p>
-              </div>
+              <p>Paiement à la livraison. Le livreur vous contactera pour confirmer.</p>
             </div>
 
             <DialogFooter className="pt-4">
