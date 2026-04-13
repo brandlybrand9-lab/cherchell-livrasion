@@ -49,16 +49,16 @@ function AppContent() {
     
     try {
       // Envoi de la commande vers Google Sheets
-      const response = await fetch('https://script.google.com/macros/s/AKfycbwasMq6MZ1tcj4nt5wuH7IOLI4krHgd6maQ3JXJ2e1pJy8FWYYZNkMx9jzlYVpwdCBojA/exec', {
+      await fetch('https://script.google.com/macros/s/AKfycbwasMq6MZ1tcj4nt5wuH7IOLI4krHgd6maQ3JXJ2e1pJy8FWYYZNkMx9jzlYVpwdCBojA/exec', {
         method: 'POST',
-        // On utilise text/plain pour éviter le blocage CORS (preflight) de Google
+        mode: 'no-cors', // Indispensable pour Google Apps Script
         headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(orderData)
       });
       
-      console.log("Statut de la réponse:", response.status);
+      console.log("Commande envoyée à Google Sheets (mode no-cors)");
     } catch (error) {
       console.error("Erreur lors de l'envoi à Google Sheets:", error);
     }
