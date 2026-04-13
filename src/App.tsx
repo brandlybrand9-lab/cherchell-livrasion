@@ -13,6 +13,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
+import { Chatbot } from './components/Chatbot';
 
 function AppContent() {
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
@@ -60,6 +61,37 @@ function AppContent() {
       console.log("Statut de la réponse:", response.status);
     } catch (error) {
       console.error("Erreur lors de l'envoi à Google Sheets:", error);
+    }
+
+    // Envoi de la notification vers Telegram
+    const telegramBotToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+    const telegramChatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
+    if (telegramBotToken && telegramChatId) {
+      const telegramText = `🚨 *Nouvelle Commande TipazaEats* 🚨\n\n` +
+        `👤 *Client:* ${orderData.name}\n` +
+        `📞 *Téléphone:* ${orderData.phone}\n` +
+        `📍 *Ville:* ${orderData.city}\n` +
+        `🏠 *Adresse:* ${orderData.address}\n` +
+        `🏪 *Restaurant:* ${orderData.restaurant}\n` +
+        `📦 *Articles:* ${orderData.items}\n` +
+        `💰 *Total:* ${orderData.total} DZD`;
+
+      try {
+        await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: telegramChatId,
+            text: telegramText,
+            parse_mode: 'Markdown',
+          }),
+        });
+      } catch (error) {
+        console.error("Erreur lors de l'envoi à Telegram:", error);
+      }
     }
 
     toast.success("Commande confirmée ! Le livreur vous contactera bientôt.");
@@ -299,6 +331,7 @@ export default function App() {
   return (
     <CartProvider>
       <AppContent />
+      <Chatbot />
       <Toaster position="top-center" />
     </CartProvider>
   );
