@@ -6,8 +6,6 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { GoogleGenAI } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 type Message = {
   role: 'user' | 'model';
   content: string;
@@ -37,6 +35,15 @@ export function Chatbot() {
     setIsLoading(true);
 
     try {
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        setMessages(prev => [...prev, { role: 'model', content: "Désolé, la clé API Gemini n'est pas configurée sur ce serveur." }]);
+        setIsLoading(false);
+        return;
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
+
       // We need to format the history for the model
       const history = messages.map(m => ({
         role: m.role,
