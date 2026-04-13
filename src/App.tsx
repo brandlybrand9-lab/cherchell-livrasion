@@ -68,17 +68,17 @@ function AppContent() {
     const telegramChatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
 
     if (telegramBotToken && telegramChatId) {
-      const telegramText = `🚨 *Nouvelle Commande TipazaEats* 🚨\n\n` +
-        `👤 *Client:* ${orderData.name}\n` +
-        `📞 *Téléphone:* ${orderData.phone}\n` +
-        `📍 *Ville:* ${orderData.city}\n` +
-        `🏠 *Adresse:* ${orderData.address}\n` +
-        `🏪 *Restaurant:* ${orderData.restaurant}\n` +
-        `📦 *Articles:* ${orderData.items}\n` +
-        `💰 *Total:* ${orderData.total} DZD`;
+      const telegramText = `🚨 <b>Nouvelle Commande TipazaEats</b> 🚨\n\n` +
+        `👤 <b>Client:</b> ${orderData.name}\n` +
+        `📞 <b>Téléphone:</b> ${orderData.phone}\n` +
+        `📍 <b>Ville:</b> ${orderData.city}\n` +
+        `🏠 <b>Adresse:</b> ${orderData.address}\n` +
+        `🏪 <b>Restaurant:</b> ${orderData.restaurant}\n` +
+        `📦 <b>Articles:</b> ${orderData.items}\n` +
+        `💰 <b>Total:</b> ${orderData.total} DZD`;
 
       try {
-        await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+        const tgResponse = await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -86,12 +86,22 @@ function AppContent() {
           body: JSON.stringify({
             chat_id: telegramChatId,
             text: telegramText,
-            parse_mode: 'Markdown',
+            parse_mode: 'HTML',
           }),
         });
+        
+        const tgData = await tgResponse.json();
+        if (!tgResponse.ok) {
+          console.error("Erreur API Telegram:", tgData);
+          toast.error("Erreur Telegram: " + (tgData.description || "Vérifiez vos identifiants"));
+        }
       } catch (error) {
         console.error("Erreur lors de l'envoi à Telegram:", error);
+        toast.error("Erreur de connexion à Telegram");
       }
+    } else {
+      console.warn("Variables Telegram manquantes");
+      toast.warning("Attention : Les notifications Telegram ne sont pas configurées.");
     }
 
     toast.success("Commande confirmée ! Le livreur vous contactera bientôt.");
