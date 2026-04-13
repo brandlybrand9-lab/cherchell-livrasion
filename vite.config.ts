@@ -5,11 +5,20 @@ import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
+  
+  const tgBot = process.env.VITE_TELEGRAM_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || env.VITE_TELEGRAM_BOT_TOKEN || env.TELEGRAM_BOT_TOKEN;
+  const tgChat = process.env.VITE_TELEGRAM_CHAT_ID || process.env.TELEGRAM_CHAT_ID || env.VITE_TELEGRAM_CHAT_ID || env.TELEGRAM_CHAT_ID;
+  
+  const defines: Record<string, any> = {
+    'process.env.GEMINI_API_KEY': JSON.stringify(process.env.GEMINI_API_KEY || env.GEMINI_API_KEY),
+  };
+  
+  if (tgBot) defines['import.meta.env.VITE_TELEGRAM_BOT_TOKEN'] = JSON.stringify(tgBot);
+  if (tgChat) defines['import.meta.env.VITE_TELEGRAM_CHAT_ID'] = JSON.stringify(tgChat);
+
   return {
     plugins: [react(), tailwindcss()],
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(process.env.GEMINI_API_KEY || env.GEMINI_API_KEY),
-    },
+    define: defines,
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
