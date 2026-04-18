@@ -59,16 +59,19 @@ function AppContent() {
         `💰 <b>Total:</b> ${orderData.total} DZD`;
 
       try {
-        const tgResponse = await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+        const cleanToken = telegramBotToken.trim().replace(/^bot/i, '');
+        const params = new URLSearchParams({
+          chat_id: telegramChatId.trim(),
+          text: telegramText,
+          parse_mode: 'HTML',
+        });
+
+        const tgResponse = await fetch(`https://api.telegram.org/bot${cleanToken}/sendMessage`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: JSON.stringify({
-            chat_id: telegramChatId,
-            text: telegramText,
-            parse_mode: 'HTML',
-          }),
+          body: params.toString(),
         });
         
         const tgData = await tgResponse.json();
@@ -76,9 +79,13 @@ function AppContent() {
           console.error("Erreur API Telegram:", tgData);
           toast.error("Erreur Telegram: " + (tgData.description || "Vérifiez vos identifiants"));
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Erreur lors de l'envoi à Telegram:", error);
-        toast.error("Erreur de connexion à Telegram");
+        if (error?.message === 'Failed to fetch') {
+          toast.error("Erreur réseau: Bloqué par un anti-pub ou problème de connexion.");
+        } else {
+          toast.error("Erreur de connexion à Telegram");
+        }
       }
     } else {
       console.warn("Variables Telegram manquantes");

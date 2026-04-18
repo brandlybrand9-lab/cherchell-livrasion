@@ -140,5 +140,78 @@ export const restaurants: Restaurant[] = [
         image: "https://images.unsplash.com/photo-1577906096429-f73c2c312435?q=80&w=500&auto=format&fit=crop"
       }
     ]
+  },
+  {
+    id: "r5",
+    name: "VEGAS",
+    description: "Good Food & Cool Drinks. Burgers, Pizzas, Sandwiches.",
+    rating: 4.8,
+    deliveryTime: "20-40 min",
+    image: "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000&auto=format&fit=crop",
+    menu: [
+      {
+        id: "m13",
+        name: "Burger Vegas",
+        description: "Poulet pané, Steak Haché, Ognion Caramélisé, Gouda, Salade, Tomate, Sauce",
+        price: 600,
+        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500&auto=format&fit=crop"
+      },
+      {
+        id: "m14",
+        name: "Burger Americain",
+        description: "Double Steak Haché, Salade, Tomate, Gouda, Sauce",
+        price: 350,
+        image: "https://images.unsplash.com/photo-1594212691516-069e871786e2?q=80&w=500&auto=format&fit=crop"
+      },
+      {
+        id: "m15",
+        name: "Burger Classic",
+        description: "Steak Haché, Salade, Tomate, Sauce",
+        price: 200,
+        image: "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=500&auto=format&fit=crop"
+      },
+      {
+        id: "m16",
+        name: "Pizza Vegas (Moyenne)",
+        description: "Viande, Poulet, Poulet fumé, champignons, camembert, maïs, sauce tomate",
+        price: 1800,
+        image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=500&auto=format&fit=crop"
+      },
+      {
+        id: "m17",
+        name: "Pizza Royale (Moyenne)",
+        description: "Viande, Poulet, 3 Fromages, sauce tomate, Olive",
+        price: 1600,
+        image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=500&auto=format&fit=crop"
+      },
+      {
+        id: "m18",
+        name: "Pizza Marguerite (Moyenne)",
+        description: "Sauce tomate, Cheddar, Olive",
+        price: 650,
+        image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=500&auto=format&fit=crop"
+      },
+      {
+        id: "m19",
+        name: "Sandwich Forestin",
+        description: "Steak Haché, Ognion caramélisé, Champignons, Gouda, Salade, Tomate, Sauce",
+        price: 450,
+        image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=500&auto=format&fit=crop"
+      },
+      {
+        id: "m20",
+        name: "Sandwich Mexicain",
+        description: "Poulet Mariné Piquant, Frite, Salade, Tomate, Sauce Fromagère",
+        price: 300,
+        image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=500&auto=format&fit=crop"
+      },
+      {
+        id: "m21",
+        name: "Sandwich Shawarma",
+        description: "Shawarma, Frite, Salade, Tomate, Sauce Fromagère",
+        price: 300,
+        image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=500&auto=format&fit=crop"
+      }
+    ]
   }
 ];
